@@ -1,0 +1,77 @@
+name: "glaucoma-swin"
+tag: "glaucoma" 
+exp_root_dir: "outputs"
+seed: 1
+
+data_type: "glaucoma-datamodule"
+data:
+  dataroot: /data2/data/EyeDiseaseImageDataset
+  split_file: "{dataroot}/glaucoma_{split}.csv"
+
+  image_size: 224
+
+  batch_size: 32
+  workers: 4
+
+  augment_extra: False
+
+trainer_type: "classification-trainer"
+trainer:
+  task: binary
+  num_classes: 1
+
+  model_type: "vis-net-classifier"
+  model:
+    network_type: network-swin-v2
+    network:
+      model: "swin-v2-b"
+      pretrained: true
+
+      in_ch: 3
+      out_ch: ${trainer.num_classes}
+
+  loss:
+    lambda_ce: 1.0
+    lambda_topo_ce: 0.0
+    lambda_minimal_filt: 0.0
+    lambda_maximal_filt: 0.0
+  
+  optimizer:
+    name: AdamW
+    args:
+      lr: 0.0001 # 0.0001
+      weight_decay: 0.01
+
+  # scheduler:
+  #   name: PolynomialLR
+  #   interval: epoch
+  #   args:
+  #     power: 0.9
+  #     total_iters: ${pl_trainer.max_epochs}
+
+  # scheduler:
+  #   name: CosineWarmup
+  #   interval: step
+  #   args:
+  #     warmup_epochs: 10
+
+  visualize: false
+
+pl_trainer:
+  max_epochs: 50
+  log_every_n_steps: 4
+  enable_progress_bar: true
+  precision: 32
+  benchmark: true # cudnn_benchmark
+  # detect_anomaly: true
+
+checkpoint:
+  save_last: true
+  save_top_k: 2
+  monitor: "val/roc_auc"
+  mode: "max"
+  filename: "epoch={epoch}-val_roc_auc={val/roc_auc}-val_accuracy={val/accuracy}"
+  auto_insert_metric_name: false
+
+test_best_val: true
+test_final: true

@@ -1,0 +1,86 @@
+name: "voc-resnet"
+tag: "voc-sbd-2012" 
+exp_root_dir: "outputs"
+seed: 1
+
+data_type: "pascal-voc-sbd-datamodule"
+data:
+  dataroot: "/data2/home/ck223/data/PascalVOC"
+
+  trainval_split: 0.9
+
+  base_size: 224
+
+  batch_size: 16
+  workers: 4
+
+
+trainer_type: "segmentation-trainer"
+trainer:
+  task: multiclass
+  num_classes: 21
+
+  model_type: "vis-net-segmentation"
+  model:
+    network_type: network-resnet-50-seg
+    network:
+      pretrained: true
+      return_aux: true
+
+    classifier_type: classifier-fcn-head
+    classifier:
+      in_channels: 2048
+      channels: ${trainer.num_classes}
+
+    aux_classifier_type: classifier-fcn-head
+    aux_classifier:
+      in_channels: 1024
+      channels: ${trainer.num_classes}
+
+  loss:
+    lambda_ce: 1.0
+    lambda_aux_ce: 0.5
+    lambda_topo_ce: 0.0
+    lambda_minimal_filt: 0.0
+    lambda_maximal_filt: 0.0
+
+  # multiclass_weights: [0.2770, 0.9954, 0.9956, 0.9913, 0.9951, 0.9925, 0.9810, 0.9923, 0.9804, 0.9896, 0.9920, 0.9862, 0.9852, 0.9916, 0.9923, 0.9097, 0.9970, 0.9974, 0.9836, 0.9881, 0.9866]
+  optimizer:
+    name: AdamW
+    args:
+      lr: 0.005
+      weight_decay: 0.01
+
+  # scheduler:
+  #   name: PolynomialLR
+  #   interval: epoch
+  #   args:
+  #     power: 0.9
+  #     total_iters: ${pl_trainer.max_epochs}
+
+  scheduler:
+    name: CosineWarmup
+    interval: step
+    args:
+      warmup_epochs: 5
+
+  visualize: false
+
+pl_trainer:
+  max_epochs: 40
+  log_every_n_steps: 4
+  enable_progress_bar: true
+  precision: 32
+  benchmark: true # cudnn_benchmark
+  # detect_anomaly: true
+
+checkpoint:
+  save_last: true
+  save_top_k: 2
+  monitor: "val/miou"
+  mode: "max"
+  filename: "epoch={epoch}-val_miou={val/miou}-val_acc={val/accuracy}"
+  auto_insert_metric_name: false
+
+test_best_val: true
+test_final: true
