@@ -1,0 +1,80 @@
+# Results I've re-generated
+Command: OMP_NUM_THREADS=1 python -u train.py --config config/isic-swin-silv2-inpd-multreg-enp.yaml --test --gpu 0
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+      test/accuracy         0.4166666567325592
+        test/loss            2.399796962738037
+      test/loss_ce           1.875800609588623
+     test/loss_ce_w          1.875800609588623
+  test/loss_cfn_entropy      7.643303871154785
+ test/loss_cfn_entropy_w  -0.0007643306162208319
+ test/loss_multifilt_reg    2.9619715213775635
+test/loss_multifilt_reg_w  0.029619721695780754
+    test/loss_topo_ce       1.9805625677108765
+   test/loss_topo_ce_w      0.4951406419277191
+      test/roc_auc          0.45845258235931396
+   test/topo_accuracy       0.05886243283748627
+    test/topo_roc_auc        0.52615886926651
+
+Command: OMP_NUM_THREADS=1 python -u train.py --config config/isic-swin-silv2-inpd-singreg-enp.yaml --test --gpu 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+      test/accuracy         0.4027777910232544
+        test/loss           2.3786494731903076
+      test/loss_ce           1.878520131111145
+     test/loss_ce_w          1.878520131111145
+  test/loss_cfn_entropy      6.687256336212158
+ test/loss_cfn_entropy_w   -0.000668725639116019
+    test/loss_topo_ce        2.003192186355591
+   test/loss_topo_ce_w      0.5007980465888977
+      test/roc_auc          0.4360199272632599
+   test/topo_accuracy       0.2539682686328888
+    test/topo_roc_auc       0.5112103223800659
+
+Command: OMP_NUM_THREADS=1 python -u train.py --config config/isic-swin-silv2-inponly-multreg-enp.yaml --test --gpu 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+      test/accuracy         0.41137567162513733
+        test/loss           2.4017157554626465
+      test/loss_ce          1.8709375858306885
+     test/loss_ce_w         1.8709375858306885
+  test/loss_cfn_entropy     1.5142208337783813
+ test/loss_cfn_entropy_w  -0.00015142207848839462
+ test/loss_multifilt_reg    0.46025869250297546
+test/loss_multifilt_reg_w  0.004602587316185236
+    test/loss_topo_ce        2.10530686378479
+   test/loss_topo_ce_w      0.5263267159461975
+      test/roc_auc          0.45617178082466125
+   test/topo_accuracy       0.07076719403266907
+    test/topo_roc_auc       0.4779887795448303
+
+Command: OMP_NUM_THREADS=1 python -u train.py --config config/isic-swin-silv2-inponly-singreg-enp.yaml --test --gpu 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+      test/accuracy         0.25661376118659973
+        test/loss            2.829857587814331
+      test/loss_ce          1.8861111402511597
+     test/loss_ce_w         1.8861111402511597
+  test/loss_cfn_entropy      1.093045711517334
+ test/loss_cfn_entropy_w  -0.00010930457210633904
+ test/loss_multifilt_reg            0.0
+test/loss_multifilt_reg_w           0.0
+    test/loss_topo_ce       3.7754223346710205
+   test/loss_topo_ce_w      0.9438555836677551
+      test/roc_auc          0.4644424319267273
+   test/topo_accuracy       0.08597883582115173
+    test/topo_roc_auc       0.45932459831237793
+
+Command: OMP_NUM_THREADS=1 python -u train.py --config config/isic-swin.yaml --test --gpu 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+      test/accuracy         0.3988095223903656
+        test/loss           1.8801178932189941
+      test/loss_ce          1.8801178932189941
+     test/loss_ce_w         1.8801178932189941
+      test/roc_auc          0.4545482397079468
