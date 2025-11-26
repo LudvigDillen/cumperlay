@@ -1,0 +1,8 @@
+# Has Done
+I think I managed to get the env correct.
+I think I managed to download the data of ISIC2018 (see home2)
+
+# To Do
+Run their evaluation on this ISIC2018 and get the same numbers.
+They have not put up their model weights so you have to re-train which would take maybe 30 hours (100 epochs x 20min)
+so I created an issue of github and hope that they respond.
