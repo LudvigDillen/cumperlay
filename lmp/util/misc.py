@@ -7,6 +7,7 @@ from packaging import version
 
 from .config import config_to_primitive
 from .typing import *
+import debugpy
 
 
 def parse_version(ver: str):
@@ -121,3 +122,10 @@ def broadcast(tensor, src=0):
 def enable_gradient(model, enabled: bool = True) -> None:
     for param in model.parameters():
         param.requires_grad_(enabled)
+
+
+def start_debug():
+    debugpy.listen(5678)
+    print("Wait for debugger!")
+    debugpy.wait_for_client()
+    print("Attached!")

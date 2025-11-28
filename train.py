@@ -6,6 +6,7 @@ import sys
 
 import torch
 import torch.backends.cuda
+from lmp.util.misc import start_debug
 
 
 class ColoredFilter(logging.Filter):
@@ -209,6 +210,14 @@ def main(args, extras) -> None:
 
 
 if __name__ == "__main__":
+    """
+    Run command: OMP_NUM_THREADS=1 \
+                 python -u train.py --config config/isic-swin-silv2-inpd-multreg-enp.yaml --test --gpu 0
+
+    # For debugging:
+    Run command: QT_QPA_PLATFORM=offscreen  OMP_NUM_THREADS=1 \
+                 python -u train.py --config config/isic-swin-silv2-inpd-multreg-enp.yaml --test --gpu 0 -d
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", required=True, help="path to config file")
     parser.add_argument(
@@ -239,8 +248,11 @@ if __name__ == "__main__":
         action="store_true",
         help="whether to enable dynamic type checking",
     )
+    parser.add_argument('-d', '--debug', action='store_true', help="Run in debug mode")
 
     args, extras = parser.parse_known_args()
+    if args.debug:
+        start_debug()
 
     if args.gradio:
         # FIXME: no effect, stdout is not captured
