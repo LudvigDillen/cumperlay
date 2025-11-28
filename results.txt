@@ -78,3 +78,22 @@ Command: OMP_NUM_THREADS=1 python -u train.py --config config/isic-swin.yaml --t
       test/loss_ce          1.8801178932189941
      test/loss_ce_w         1.8801178932189941
       test/roc_auc          0.4545482397079468
+
+2025-11-28, updated Results
+Command: OMP_NUM_THREADS=1 python -u train.py --config config/isic-swin-silv2-inpd-multreg-enp.yaml --test --gpu 0
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+      test/accuracy         0.8320105671882629  (paper has 0.8347, ok)
+        test/loss           1.0674318075180054
+      test/loss_ce          0.8514446020126343
+     test/loss_ce_w         0.8514446020126343
+  test/loss_cfn_entropy     4.9327521324157715
+ test/loss_cfn_entropy_w  -0.0004932751762680709
+ test/loss_multifilt_reg    0.00585509929805994
+test/loss_multifilt_reg_w 5.8550998801365495e-05
+    test/loss_topo_ce       0.8656880259513855
+   test/loss_topo_ce_w      0.21642200648784637
+      test/roc_auc          0.9648759365081787  (paper has 0.9650, ok)
+   test/topo_accuracy       0.8339946866035461
+    test/topo_roc_auc       0.9449227452278137

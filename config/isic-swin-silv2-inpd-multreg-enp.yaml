@@ -5,14 +5,13 @@ seed: 0
 
 data_type: "isic2018-datamodule"
 data:
-  dataroot: /data2/data/ISIC2018/task3
-  
+  dataroot: /home2/lu2277di/data/ISIC2018
   image_size: 224
-
-  batch_size: 16
+  batch_size: 96
   workers: 4
-
   augment_extra: False
+
+resume: experiments/isic2018/best_val.pt
 
 variables:
   filt_rows: 8 # 16
