@@ -1,8 +1,10 @@
 # Has Done
 I think I managed to get the env correct.
 I think I managed to download the data of ISIC2018 (see home2)
+Run their evaluation on this ISIC2018 and get the same numbers.
+Download ISIC2024.
 
 # To Do
-Run their evaluation on this ISIC2018 and get the same numbers.
-They have not put up their model weights so you have to re-train which would take maybe 30 hours (100 epochs x 20min)
-so I created an issue of github and hope that they respond.
+1. Use ISIC2018 TopoSwin-MP model to try getting some results on the ISIC2024 dataset.
+2. Retrain on the ISIC2024 dataset.
+3. Make some tiny-tweaks to the model and hope for better results.
