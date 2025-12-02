@@ -146,3 +146,7 @@ export PATH=$(echo "$PATH" | sed -e "s|$CUDA_HOME/bin:||")
 export LD_LIBRARY_PATH=$(echo "$LD_LIBRARY_PATH" | sed -e "s|$CUDA_HOME/lib64:||")
 unset CUDA_HOME
 ```
+To download the kaggle dataset (ISIC2024), do install kaggle in this env
+```bash
+pip install kaggle
+```
