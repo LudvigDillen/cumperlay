@@ -6,5 +6,11 @@ Download ISIC2024.
 
 # To Do
 1. Use ISIC2018 TopoSwin-MP model to try getting some results on the ISIC2024 dataset.
+    Compare the data in ISIC2024 and ISIC2024_not_kaggle (and ISIC2018) (any diff?)
+    Get inspired by this file: lmp/data/isic2018.py to write the dataloader
+    Also need to create a new config file perhaps.
+    Actually try to figure out if the isic2018 folder contains sort of the same thing
+    as the isic2024 folder so that we can just swap folder in config. Unfortunately, I 
+    do not think this is the case.
 2. Retrain on the ISIC2024 dataset.
 3. Make some tiny-tweaks to the model and hope for better results.

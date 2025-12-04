@@ -1,0 +1,71 @@
+The classes in ISIC2018 are
+CLASSES = ['MEL', 'NV', 'BCC', 'AKIEC', 'BKL', 'DF', 'VASC']
+and I think they stand for 
+    - MEL: Melanoma Invasive
+    - NV: (Melanocytic) Nevus
+    - BCC: Basal Cell Carcinoma
+    - AKIEC: Actinic Keratoses
+    - BKL: Benign Keratosis
+    - DF: Dermafibroma
+    - VASC: Vascular Lesions
+
+For ISIC2024 the mappings are
+Melanoma Invasive is MEL
+Nevus is NEV
+Basal cell Carcinoma is BCC
+Squamous cell Carcinoma I don't know
+Solar or Actinic Keratoses should be AKIEC
+Beign cases, I am not sure, maybe BKL?
+NOS stands for "Not Otherwise Specified"
+
+Note that the task on ISIC2024 is binary classification whereas the task
+on ISIC2018 is a 7-way classification.
+
+In ISIC2024, on the train set, there are 401059 samples, among which
+    - 400666 are benign (99.902%)
+    - 393 are malignant (0.098%)
+i.e., there is a huge class imbalance.
+
+In ISIC2018, on the train set, there are 10015 samples, among which
+    - 1113 are MEL
+    - 6705 are NV
+    - 514 are BCC
+    - 327 are AKIEC
+    - 1099 are BKL
+    - 115 are DF
+    - 142 are VASC
+which surely has some class imbalance, but it is far from as drastic.
+
+I had previously looked a little at the ISIC2024 Kaggle page and saw it was binary classification
+and thought that ISIC2018 was this as well, but it is not (which they also say in the paper).
+ISIC2018 is 7-way classification of skin cancer types whereas ISIC2024 wants a probability p
+of the sample being malignant (thus 1-p is the prob. for benign). This will change what head
+we use in our layer I presume we need to change from 7 output channels (logits for the 7 classes) 
+to 1 output channel (the prob. of malignant). So, we cannot reuse the old network, even if
+we would only replace the head and keep everything else frozen, and re-train the model, it is
+unclear how good this would be. Training from scratch with another head should work. But there
+are three issues:
+    (1): After downloading the ISIC2024 data, I noticed it is a little bit differently structured
+         than the ISIC2018 data, meaning we probably have to create a new dataloader which will
+         take some time.
+    (2): Another issue is class imbalance. The ISIC2024 dataset has a much more imbalanced training
+         set than ISIC2018 (see exact imbalance below). This is problematic since if we retrain on
+         the ISIC2024 dataset, we will likely overfit to predict only benign if we don't do anything
+         about it. So for this to work, we have to figure out some clever way to not just predict benigns.
+    (3): For ISIC2024, there is no available ground truth data, but we need to upload a notebook running
+         our model which the output a .csv file. Should not be too complicated but takes a bit of time perhaps.
+
+In ISIC2024, on the train set, there are 401059 samples, among which
+    - 400666 are benign (99.902%)
+    - 393 are malignant (0.098%)
+i.e., there is a huge class imbalance.
+
+In ISIC2018, on the train set, there are 10015 samples, among which
+    - 1113 are MEL
+    - 6705 are NV
+    - 514 are BCC
+    - 327 are AKIEC
+    - 1099 are BKL
+    - 115 are DF
+    - 142 are VASC
+which surely has some class imbalance, but it is far from as drastic.
