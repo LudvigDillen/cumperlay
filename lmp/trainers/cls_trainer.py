@@ -368,6 +368,12 @@ class BinaryClassificationTrainer(BaseTrainer):
         self.log(f"{phase}/{prefix}roc_auc", roc_fn,
                  on_step=(phase == "train"), on_epoch=True)
 
+        if self.task in "binary":
+            bal_acc = compute_balanced_accuracy_binary(
+                self.task, output["pred"], target)
+            self.log(f"{phase}/{prefix}balanced_accuracy", bal_acc,
+                    on_step=(phase == "train"), on_epoch=True)
+
     def visualize_output(self, batch, output, target_indices: list[int] = [0], phase: str = "val", batch_idx: int = 0):
         epoch = self.true_current_epoch
         for target_idx in target_indices:
@@ -554,3 +560,30 @@ def optional_index_2d(x: Union[Float[Tensor, "B C0 C1 *D"], list[list[Float[Tens
     if isinstance(x, Tensor):
         return x[:, i:i+1, j]
     return x[i][j]
+
+def compute_balanced_accuracy_binary(task: str, logits: torch.Tensor, target: torch.Tensor) -> float:
+    if task == "binary":
+        # if logits are shape [N, 1], squeeze
+        if logits.ndim == 2 and logits.shape[1] == 1:
+            logits = logits.squeeze(1)
+
+        # if logits: threshold at 0.0, if probabilities use 0.5 instead
+        pred_labels = (logits > 0.0).long()
+        true_labels = target.long()
+
+        # flatten just in case
+        pred_labels = pred_labels.view(-1)
+        true_labels = true_labels.view(-1)
+
+        tp = ((pred_labels == 1) & (true_labels == 1)).sum()
+        tn = ((pred_labels == 0) & (true_labels == 0)).sum()
+        fp = ((pred_labels == 1) & (true_labels == 0)).sum()
+        fn = ((pred_labels == 0) & (true_labels == 1)).sum()
+
+        tpr = tp.float() / (tp + fn + 1e-8)  # sensitivity
+        tnr = tn.float() / (tn + fp + 1e-8)  # specificity
+
+        bal_acc = 0.5 * (tpr + tnr)
+    else:
+        raise ValueError(f"Unsupported task for balanced accuracy: {task}")
+    return bal_acc.item()

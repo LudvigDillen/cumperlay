@@ -100,20 +100,18 @@ test/loss_multifilt_reg_w 5.8550998801365495e-05
 
 
 Binary cls 2 epochs train, train and eval on 2018 dataset:
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-       Test metric             DataLoader 0
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-      test/accuracy         0.8664020895957947
-        test/loss           0.3646019995212555
-      test/loss_ce          0.28599315881729126
-     test/loss_ce_w         0.28599315881729126
-  test/loss_cfn_entropy      5.239407062530518
- test/loss_cfn_entropy_w   -0.000523940718267113
- test/loss_multifilt_reg    0.27208447456359863
-test/loss_multifilt_reg_w  0.0027208446990698576
-    test/loss_topo_ce       0.30564776062965393
-   test/loss_topo_ce_w      0.07641194015741348
-      test/roc_auc          0.9174368381500244
-   test/topo_accuracy       0.8670634627342224
-    test/topo_roc_auc       0.9062457084655762
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       test/accuracy           0.8664020895957947
+  test/balanced_accuracy       0.7457402944564819
+         test/loss             0.3647249937057495
+       test/loss_ce            0.2859824597835541
+      test/loss_ce_w           0.2859824597835541
+   test/loss_cfn_entropy        5.239386081695557
+  test/loss_cfn_entropy_w    -0.0005239385645836592
+  test/loss_multifilt_reg      0.27208441495895386
+ test/loss_multifilt_reg_w    0.0027208442334085703
+     test/loss_topo_ce         0.3061821460723877
+    test/loss_topo_ce_w        0.07654553651809692
+       test/roc_auc            0.9174395799636841
+    test/topo_accuracy         0.8670634627342224
+test/topo_balanced_accuracy    0.7721835374832153
+     test/topo_roc_auc         0.9057239890098572
