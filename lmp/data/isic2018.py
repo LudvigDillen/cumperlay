@@ -47,6 +47,7 @@ class ISIC2018DataModuleConfig:
     train_data_percent_seed: int = 0
 
     augment_extra: bool = True
+    binary: bool = False
 
 FOLDER_NAMES = {
     "train": ("ISIC2018_Task3_Training_Input","ISIC2018_Task3_Training_GroundTruth/ISIC2018_Task3_Training_GroundTruth.csv"),
@@ -69,7 +70,12 @@ class ISIC2018Dataset(Dataset, Updateable):
         image_names = target_data["image"].values
         class_names = pd.from_dummies(target_data[self.CLASSES]).values.squeeze(-1)
         
-        self.class_map = {cls: i for i, cls in enumerate(self.CLASSES)}
+        if self.cfg.binary:
+            benign = {'NV', 'BKL', 'DF', 'VASC'}
+            malignant = {'MEL', 'BCC', 'AKIEC'}
+            self.class_map = {cls: (1 if cls in malignant else 0) for cls in self.CLASSES}
+        else:
+            self.class_map = {cls: i for i, cls in enumerate(self.CLASSES)}
 
         data = []
         targets = []

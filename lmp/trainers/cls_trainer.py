@@ -137,6 +137,8 @@ class BinaryClassificationTrainer(BaseTrainer):
     def loss(self, input_dict, phase="train"):
         pred, other = self.forward(input_dict["input"], input_dict)
         target = self.target_map(input_dict["target"])
+        if self.task == "binary" and len(pred.shape) == 2:
+            pred = pred.squeeze(-1)  # [B, 1] -> [B]
 
         out = {
             "pred": pred,
@@ -186,6 +188,12 @@ class BinaryClassificationTrainer(BaseTrainer):
                 set_loss("bifilt", F.l1_loss(filts, gt_filts))
 
         if self.cfg.topo_pred:
+            topo_pred = out["topo_pred"]
+            if self.task == "binary" and len(topo_pred.shape) == 2:
+                out["topo_pred"] = topo_pred.squeeze(-1)
+            else:
+                out["topo_pred"] = topo_pred
+
             # (Binary) Cross entropy
             set_loss("topo_ce", self.ce_loss(out["topo_pred"], target))
 

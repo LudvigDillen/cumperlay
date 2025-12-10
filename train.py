@@ -110,6 +110,7 @@ def main(args, extras) -> None:
     # set a different seed for each device
     pl.seed_everything(cfg.seed + get_rank(), workers=True)
 
+    cfg.data["binary"] = True if cfg.trainer.task == "binary" else False
     dm = lmp.find(cfg.data_type)(cfg.data)
     system: BaseTrainer = lmp.find(cfg.trainer_type)(
         cfg.trainer, resumed=cfg.resume is not None
@@ -217,6 +218,16 @@ if __name__ == "__main__":
     # For debugging:
     Run command: QT_QPA_PLATFORM=offscreen  OMP_NUM_THREADS=1 \
                  python -u train.py --config config/isic-swin-silv2-inpd-multreg-enp.yaml --test --gpu 0 -d
+    Train command: QT_QPA_PLATFORM=offscreen  OMP_NUM_THREADS=1 \
+                 python -u train.py --config config/isic-swin-silv2-inpd-multreg-enp.yaml --train --gpu 0 -d
+
+    # For binary classification: 
+    QT_QPA_PLATFORM=offscreen  OMP_NUM_THREADS=1 python -u train.py --config \
+        config/isic-swin-silv2-inpd-multreg-enp-binary.yaml --train --gpu 0 -d
+    
+    nohup python -u train.py --config \
+        config/isic-swin-silv2-inpd-multreg-enp-binary.yaml \
+            --train --gpu 0 > outputs/nohups/isic2018_binary_2epochs.txt  2>&1 &
     """
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", required=True, help="path to config file")

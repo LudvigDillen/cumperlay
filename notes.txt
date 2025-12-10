@@ -21,21 +21,6 @@ NOS stands for "Not Otherwise Specified"
 Note that the task on ISIC2024 is binary classification whereas the task
 on ISIC2018 is a 7-way classification.
 
-In ISIC2024, on the train set, there are 401059 samples, among which
-    - 400666 are benign (99.902%)
-    - 393 are malignant (0.098%)
-i.e., there is a huge class imbalance.
-
-In ISIC2018, on the train set, there are 10015 samples, among which
-    - 1113 are MEL
-    - 6705 are NV
-    - 514 are BCC
-    - 327 are AKIEC
-    - 1099 are BKL
-    - 115 are DF
-    - 142 are VASC
-which surely has some class imbalance, but it is far from as drastic.
-
 I had previously looked a little at the ISIC2024 Kaggle page and saw it was binary classification
 and thought that ISIC2018 was this as well, but it is not (which they also say in the paper).
 ISIC2018 is 7-way classification of skin cancer types whereas ISIC2024 wants a probability p
@@ -69,3 +54,34 @@ In ISIC2018, on the train set, there are 10015 samples, among which
     - 115 are DF
     - 142 are VASC
 which surely has some class imbalance, but it is far from as drastic.
+
+In the train set put
+ - Full ISIC2018 dataset (maybe not BKL) with ISIC2024 benign samples and full data split
+    -  Kim will figure out which classes to add to benign and which classes to add to
+       malignant
+-  Use binary classifier used to train e.g. Glaucoma for this new binary classification task.
+
+Relabel dataset
+ - Combine data splits
+ - Do train and test split
+
+Fix dataloader
+ - Change some names in dataloader
+ - Perhaps change some stuff
+
+Do evaluation
+ - Metrics in ISIC2018
+ - Qualitative analysis of failure and additional visualization
+
+Relabeling
+Benign: BKL, DF, NV, VASC  (8061 cases) (0 label) (80.4%)
+malignant: BCC, MEL, AKIEC (1954 cases) (1 label) (19.6%)
+
+AKIEC is unclear as it ofen is classified as pre-malignant. We need to double-check this.
+    - 1113 are MEL
+    - 6705 are NV
+    - 514 are BCC
+    - 327 are AKIEC
+    - 1099 are BKL
+    - 115 are DF
+    - 142 are VASC
