@@ -98,8 +98,7 @@ test/loss_multifilt_reg_w 5.8550998801365495e-05
    test/topo_accuracy       0.8339946866035461
     test/topo_roc_auc       0.9449227452278137
 
-
-Binary cls 2 epochs train, train and eval on 2018 dataset:
+Binary cls 2 (best) epochs train, train and eval on ISIC2018 dataset:
        test/accuracy           0.8664020895957947
   test/balanced_accuracy       0.7457402944564819
          test/loss             0.3647249937057495
@@ -115,3 +114,96 @@ Binary cls 2 epochs train, train and eval on 2018 dataset:
     test/topo_accuracy         0.8670634627342224
 test/topo_balanced_accuracy    0.7721835374832153
      test/topo_roc_auc         0.9057239890098572
+
+Binary cls 2 (last) epochs train, train and eval on ISIC2018 dataset:
+       test/accuracy           0.8664020895957947
+  test/balanced_accuracy       0.7457402944564819
+         test/loss             0.3647249937057495
+       test/loss_ce            0.2859824597835541
+      test/loss_ce_w           0.2859824597835541
+   test/loss_cfn_entropy        5.239386081695557
+  test/loss_cfn_entropy_w    -0.0005239385645836592
+  test/loss_multifilt_reg      0.27208441495895386
+ test/loss_multifilt_reg_w    0.0027208442334085703
+     test/loss_topo_ce         0.3061821460723877
+    test/loss_topo_ce_w        0.07654553651809692
+       test/roc_auc            0.9174395799636841
+    test/topo_accuracy         0.8670634627342224
+test/topo_balanced_accuracy    0.7721835374832153
+     test/topo_roc_auc         0.9057239890098572
+
+Binary cls 10 (best) epochs train, train and eval on ISIC2018
+       test/accuracy           0.8816137313842773
+  test/balanced_accuracy       0.7730156779289246
+         test/loss              0.374043345451355
+       test/loss_ce            0.29616624116897583
+      test/loss_ce_w           0.29616624116897583
+   test/loss_cfn_entropy        5.899944305419922
+  test/loss_cfn_entropy_w    -0.0005899944226257503
+  test/loss_multifilt_reg      0.12045353651046753
+ test/loss_multifilt_reg_w    0.0012045353651046753
+     test/loss_topo_ce         0.30905017256736755
+    test/loss_topo_ce_w        0.07726254314184189
+       test/roc_auc            0.9310635328292847
+    test/topo_accuracy         0.8809523582458496
+test/topo_balanced_accuracy    0.7594998478889465
+     test/topo_roc_auc         0.9254544377326965
+
+Binary cls 10 (last) epochs train, train and eval on ISIC2018
+       test/accuracy           0.8736772537231445
+  test/balanced_accuracy       0.7263433337211609
+         test/loss             0.4521443545818329
+       test/loss_ce             0.363802969455719
+      test/loss_ce_w            0.363802969455719
+   test/loss_cfn_entropy        5.686129570007324
+  test/loss_cfn_entropy_w    -0.0005686130025424063
+  test/loss_multifilt_reg     0.019394133239984512
+ test/loss_multifilt_reg_w   0.00019394131959415972
+     test/loss_topo_ce         0.35486412048339844
+    test/loss_topo_ce_w        0.08871603012084961
+       test/roc_auc            0.9235594868659973
+    test/topo_accuracy         0.8802909851074219
+test/topo_balanced_accuracy    0.7435948848724365
+     test/topo_roc_auc         0.9157717227935791
+
+Binary cls 50 (best) epochs train, train and eval on ISIC2018
+       test/accuracy           0.8829365372657776
+  test/balanced_accuracy       0.8114991188049316
+         test/loss             0.5142767429351807
+       test/loss_ce            0.41594934463500977
+      test/loss_ce_w           0.41594934463500977
+   test/loss_cfn_entropy        7.747570037841797
+  test/loss_cfn_entropy_w    -0.0007747571216896176
+  test/loss_multifilt_reg     0.0012209992855787277
+ test/loss_multifilt_reg_w   1.2209992746647913e-05
+     test/loss_topo_ce         0.39635980129241943
+    test/loss_topo_ce_w        0.09908995032310486
+       test/roc_auc            0.9275791645050049
+    test/topo_accuracy         0.8822751045227051
+test/topo_balanced_accuracy    0.8146940469741821
+     test/topo_roc_auc         0.9247516393661499
+
+Binary cls 50 (last) epochs train, train and eval on ISIC2018
+       test/accuracy           0.8882275223731995
+  test/balanced_accuracy       0.8257459402084351
+         test/loss              0.644146203994751
+       test/loss_ce            0.5210646390914917
+      test/loss_ce_w           0.5210646390914917
+   test/loss_cfn_entropy        7.405457019805908
+  test/loss_cfn_entropy_w     -0.000740545685403049
+  test/loss_multifilt_reg     0.000729760096874088
+ test/loss_multifilt_reg_w    7.297600859601516e-06
+     test/loss_topo_ce         0.49525922536849976
+    test/loss_topo_ce_w        0.12381480634212494
+       test/roc_auc            0.9324043989181519
+    test/topo_accuracy         0.8888888955116272
+test/topo_balanced_accuracy    0.8274695873260498
+     test/topo_roc_auc         0.9248137474060059
+
+epochs   acc   bal_acc  roc_auc
+2(best)  86.6   74.6     91.7
+2(last)  86.6   74.6     91.7
+10(best) 88.2   77.3     93.1
+10(last) 87.4   72.6     92.4
+50(best) 88.3   81.1     92.8
+50(last) 88.8   82.6     93.2
