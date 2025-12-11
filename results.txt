@@ -200,7 +200,7 @@ Binary cls 50 (last) epochs train, train and eval on ISIC2018
 test/topo_balanced_accuracy    0.8146940469741821
      test/topo_roc_auc         0.9247516393661499
 
-Evaluation on the ISIC2024 dataset gave me
+Evaluation on the ISIC2024 (the ISIC2018 50(best)) dataset gave me
        test/accuracy           0.8034865260124207
   test/balanced_accuracy       0.5938836932182312
          test/loss             1.3791782855987549
@@ -216,6 +216,23 @@ Evaluation on the ISIC2024 dataset gave me
     test/topo_accuracy         0.8045430779457092
 test/topo_balanced_accuracy    0.5960823893547058
      test/topo_roc_auc         0.6875572204589844
+
+Training 1 epoch on the combined dataset gave me, meaning that we only get benign predictions which is not good.
+       test/accuracy           0.7923930287361145
+  test/balanced_accuracy               0.5
+         test/loss             3.4491167068481445
+       test/loss_ce             2.989062786102295
+      test/loss_ce_w            2.989062786102295
+   test/loss_cfn_entropy        7.527856826782227
+  test/loss_cfn_entropy_w    -0.0007527857087552547
+  test/loss_multifilt_reg      0.22163988649845123
+ test/loss_multifilt_reg_w    0.0022163984831422567
+     test/loss_topo_ce         1.8343583345413208
+    test/loss_topo_ce_w        0.4585895836353302
+       test/roc_auc            0.5601662397384644
+    test/topo_accuracy         0.7923930287361145
+test/topo_balanced_accuracy            0.5
+     test/topo_roc_auc         0.5214368104934692
 
          ISIC2018 Test Set     Our ISIC2024 Test Set
 epochs   acc  bal_acc roc_auc  acc  bal_acc roc_acc
