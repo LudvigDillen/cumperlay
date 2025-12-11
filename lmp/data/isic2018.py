@@ -49,39 +49,68 @@ class ISIC2018DataModuleConfig:
     augment_extra: bool = True
     binary: bool = False
 
-FOLDER_NAMES = {
-    "train": ("ISIC2018_Task3_Training_Input","ISIC2018_Task3_Training_GroundTruth/ISIC2018_Task3_Training_GroundTruth.csv"),
-    "val": ("ISIC2018_Task3_Validation_Input","ISIC2018_Task3_Validation_GroundTruth/ISIC2018_Task3_Validation_GroundTruth.csv"),
-    "test": ("ISIC2018_Task3_Test_Input","ISIC2018_Task3_Test_GroundTruth/ISIC2018_Task3_Test_GroundTruth.csv")
-}
+# TODO: create all input and img files
+def get_folder_names(isic_version):
+    if isic_version=="ISIC2018":
+        folder_names = {
+            "train": ("ISIC2018_Task3_Training_Input","ISIC2018_Task3_Training_GroundTruth/ISIC2018_Task3_Training_GroundTruth.csv"),
+            "val": ("ISIC2018_Task3_Validation_Input","ISIC2018_Task3_Validation_GroundTruth/ISIC2018_Task3_Validation_GroundTruth.csv"),
+            "test": ("ISIC2018_Task3_Test_Input","ISIC2018_Task3_Test_GroundTruth/ISIC2018_Task3_Test_GroundTruth.csv")
+        }
+    elif isic_version=="ISIC2024":
+        folder_names = {
+            "train": ("TDA/Training_Input/ISIC2018_Task3_Training_Input","TDA/Training_GroundTruth/ISIC2018_Task3_Training_GroundTruth/ISIC2018_Task3_Training_GroundTruth.csv"),
+            "val": ("TDA/ISIC2018_Task3_Validation_Input","TDA/ISIC2018_Task3_Validation_GroundTruth/ISIC2018_Task3_Validation_GroundTruth.csv"),
+            "test": ("TDA/Test_Input","TDA/Test_GroundTruth/Test_GroundTruth.csv")
+        }
+    else:
+        raise ValueError(f"Unknown dataset version: {isic_version}")
+    return folder_names
 
 class ISIC2018Dataset(Dataset, Updateable):
     CLASSES = ['MEL', 'NV', 'BCC', 'AKIEC', 'BKL', 'DF', 'VASC']
+    CLASSES2024 = ['Malignant']
     
     def __init__(self, cfg: ISIC2018DataModuleConfig, split: str):
         super().__init__()
 
         self.cfg = cfg
+        if "ISIC2018" in cfg.dataroot:
+            isic_version = "ISIC2018"
+        elif "ISIC2024" in cfg.dataroot:
+            isic_version = "ISIC2024"
+        else:
+            raise ValueError(f"Unknown dataset folder: {cfg.dataroot}")
 
-        data_folder, target_csv = FOLDER_NAMES[split]
+        folder_names = get_folder_names(isic_version)
+
+        data_folder, target_csv = folder_names[split]
         data_folder = os.path.join(self.cfg.dataroot, data_folder)
 
         target_data = pd.read_csv(os.path.join(self.cfg.dataroot, target_csv))
         image_names = target_data["image"].values
-        class_names = pd.from_dummies(target_data[self.CLASSES]).values.squeeze(-1)
-        
-        if self.cfg.binary:
-            benign = {'NV', 'BKL', 'DF', 'VASC'}
-            malignant = {'MEL', 'BCC', 'AKIEC'}
-            self.class_map = {cls: (1 if cls in malignant else 0) for cls in self.CLASSES}
-        else:
-            self.class_map = {cls: i for i, cls in enumerate(self.CLASSES)}
 
         data = []
         targets = []
-        for path, label in zip(image_names, class_names):
-            data.append(os.path.join(data_folder, f"{path}.jpg"))
-            targets.append(self.class_map[label])
+        if isic_version=="ISIC2018":
+            class_names = pd.from_dummies(target_data[self.CLASSES]).values.squeeze(-1)
+            if self.cfg.binary:
+                benign = {'NV', 'BKL', 'DF', 'VASC'}
+                malignant = {'MEL', 'BCC', 'AKIEC'}
+                self.class_map = {cls: (1 if cls in malignant else 0) for cls in self.CLASSES}
+            else:
+                self.class_map = {cls: i for i, cls in enumerate(self.CLASSES)}
+
+            for path, label in zip(image_names, class_names):
+                data.append(os.path.join(data_folder, f"{path}.jpg"))
+                targets.append(self.class_map[label])
+        elif isic_version=="ISIC2024":
+            lookup = target_data.set_index("image")["malignant"].to_dict()
+            for path in image_names:
+                data.append(os.path.join(data_folder, f"{path}.jpg"))
+                targets.append(int(lookup[path]))
+        else:
+            raise ValueError(f"Unknown dataset folder: {data_folder}")
         self.data = data
         self.targets = np.array(targets)
 

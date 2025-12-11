@@ -85,3 +85,26 @@ AKIEC is unclear as it ofen is classified as pre-malignant. We need to double-ch
     - 1099 are BKL
     - 115 are DF
     - 142 are VASC
+
+ISIC2018 test set, 1512 samples
+    - 171 MEL
+    - 909 NV
+    - 93 BCC
+    - 43 AKIEC
+    - 217 BKL
+    - 44 DF
+    - 35 VASC
+giving
+    - 1205 benign samples (79.7%)
+    - 307 malignant samples (20.3%)
+
+Testing on ISIC2024, to test:
+    - Take 1500 benign samples and the 393 malignant samples.
+giving 1893 total samples of which 79.2% benign and 20.8% are malignant.
+We make this pick to make experiments easily runnable and to get the sample
+distribution of malignant and benign samples as in the ISIC2018 dataset to
+make the results comparable to each other.
+
+Potentially add 10 000 extra benign samples to the ISIC2018 train samples giving
+Benign: BKL, DF, NV, VASC, +10000 ISIC2024 samples  (18061 cases) (0 label) (90.2%)
+malignant: BCC, MEL, AKIEC (1954 cases) (1 label) (9.8%)

@@ -6,6 +6,7 @@ seed: 0
 data_type: "isic2018-datamodule"
 data:
   dataroot: /home2/lu2277di/data/ISIC2018
+  #dataroot: /home2/lu2277di/data/ISIC2024
   image_size: 224
   batch_size: 96  # use 16 for train and 96 for test
   workers: 4
@@ -16,8 +17,8 @@ data:
 #resume:  outputs/isic-swin-silv2-inpd-multreg-enp/isic2018@20251210-120948/ckpts/epoch=1-val_roc_auc=0.9376144409179688-val_accuracy=0.8756476640701294-val_topo_roc=0.9307504296302795.ckpt # 2 epochs (best)
 #resume: outputs/isic-swin-silv2-inpd-multreg-enp/isic2018@20251210-164210/ckpts/epoch=6-val_roc_auc=0.9574435353279114-val_accuracy=0.8963730335235596-val_topo_roc=0.9598840475082397.ckpt # 10 epochs (best)
 #resume: outputs/isic-swin-silv2-inpd-multreg-enp/isic2018@20251210-164210/ckpts/last.ckpt # 10 epochs (last)
-#resume: outputs/isic-swin-silv2-inpd-multreg-enp/isic2018@20251210-210416/ckpts/last.ckpt # 50 epochs (last)
 resume: outputs/isic-swin-silv2-inpd-multreg-enp/isic2018@20251210-210416/ckpts/epoch=37-val_roc_auc=0.9673581719398499-val_accuracy=0.9378238320350647-val_topo_roc=0.9603416919708252.ckpt  # 50 epochs (best)
+#resume: outputs/isic-swin-silv2-inpd-multreg-enp/isic2018@20251210-210416/ckpts/last.ckpt # 50 epochs (last)
 
 variables:
   filt_rows: 8 # 16
