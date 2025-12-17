@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field
 import math
+import numpy as np
+import matplotlib.pyplot as plt
 
 import torch
 import torch.nn as nn
@@ -337,6 +339,31 @@ class BinaryClassificationTrainer(BaseTrainer):
 
     def test_step(self, batch, batch_idx):
         out = self.loss(batch, "test")
+
+        # mal_inds = torch.argwhere(out["output"]["target"]).cpu().numpy()
+        # benign_inds = torch.argwhere(out["output"]["target"] == 0).cpu().numpy()
+        # n = 5
+        # if len(mal_inds) >= n:
+        #     ii = np.random.choice(mal_inds.squeeze(), size=n, replace=False)
+        #     jj = np.random.choice(benign_inds.squeeze(), size=n, replace=False)
+        #     pred_mal = (out["output"]["pred"][ii] > 0.0).int().cpu()
+        #     pred_ben = (out["output"]["pred"][jj] > 0.0).int().cpu()
+        #     im_mal = batch['input'][ii].cpu()  # n x C x H x W
+        #     im_ben = batch['input'][jj].cpu()  # n x C x H x W
+        #     imm = im_mal - im_mal.min()
+        #     imm = imm / imm.max()
+        #     imb = im_ben - im_ben.min()
+        #     imb = imb / imb.max()
+        #     # plot images
+        #     plot_malignant_vs_benign(
+        #         im_mal=imm,
+        #         im_ben=imb,
+        #         pred_mal=pred_mal.squeeze(),
+        #         pred_ben=pred_ben.squeeze(),
+        #         n=n,
+        #         idx=f"isic2024-{batch_idx}"
+        #     )
+
         self.log_stats(out["output"], "test")
 
         if self.cfg.visualize and batch_idx == 0:
@@ -587,3 +614,55 @@ def compute_balanced_accuracy_binary(task: str, logits: torch.Tensor, target: to
     else:
         raise ValueError(f"Unsupported task for balanced accuracy: {task}")
     return bal_acc.item()
+
+
+def plot_malignant_vs_benign(im_mal, im_ben, pred_mal, pred_ben, n, idx):
+    """
+    im_mal, im_ben: (n, C, H, W)
+    pred_mal, pred_ben: (n,) int tensors {0,1}
+    """
+
+    fig, axes = plt.subplots(2, n, figsize=(3.0 * n, 6.0), squeeze=False)
+
+    for k in range(n):
+        # -------------------
+        # Malignant row
+        # -------------------
+        img = im_mal[k]
+        ax = axes[0, k]
+
+        if img.shape[0] == 1:  # grayscale
+            ax.imshow(img[0].cpu(), cmap="gray")
+        else:  # RGB
+            ax.imshow(img.permute(1, 2, 0).cpu())
+
+        ax.set_title(
+            f"GT: Malignant | Pred: {'Malignant' if pred_mal[k] else 'Benign'}",
+            fontsize=10
+        )
+        ax.axis("off")
+
+        # -------------------
+        # Benign row
+        # -------------------
+        img = im_ben[k]
+        ax = axes[1, k]
+
+        if img.shape[0] == 1:
+            ax.imshow(img[0].cpu(), cmap="gray")
+        else:
+            ax.imshow(img.permute(1, 2, 0).cpu())
+
+        ax.set_title(
+            f"GT: Benign | Pred: {'Malignant' if pred_ben[k] else 'Benign'}",
+            fontsize=10
+        )
+        ax.axis("off")
+
+    # Row labels (left side)
+    axes[0, 0].set_ylabel("Malignant", fontsize=12)
+    axes[1, 0].set_ylabel("Benign", fontsize=12)
+
+    plt.tight_layout()
+    plt.savefig(f"outputs/plots_tda_course/preds_{idx}.png", dpi=150, bbox_inches="tight")
+    plt.close()
