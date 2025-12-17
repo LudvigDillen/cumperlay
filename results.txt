@@ -242,3 +242,7 @@ epochs   acc  bal_acc roc_auc  acc  bal_acc roc_acc
 10(last) 87.4   72.6    92.4
 50(best) 88.8   82.6    93.2  80.3   59.3   67.9
 50(last) 88.3   81.1    92.8
+
+per class acc.      benign  mal.
+50(best) ISIC 2018  92.8    72.4
+50(best) ISIC 2024  95.3    23.3
